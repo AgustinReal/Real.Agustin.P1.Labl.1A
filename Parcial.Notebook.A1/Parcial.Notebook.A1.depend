@@ -1,0 +1,105 @@
+# depslib dependency file v1.0
+1652271327 source:c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\fecha.c
+	"fecha.h"
+	<stdio.h>
+	<stdlib.h>
+	"inputs.h"
+
+1652279685 c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\fecha.h
+
+1652279869 c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\inputs.h
+
+1652271327 source:c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\inputs.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<string.h>
+	"inputs.h"
+
+1652278019 source:c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\marca.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"inputs.h"
+	"marca.h"
+
+1652278540 source:c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\notebook.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"notebook.h"
+	"inputs.h"
+	"marca.h"
+	"tipo.h"
+
+1652279685 c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\notebook.h
+	"marca.h"
+	"tipo.h"
+
+1652271327 c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\marca.h
+
+1652271327 c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\tipo.h
+
+1652277966 source:c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\servicio.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"servicio.h"
+
+1652279685 c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\servicio.h
+
+1652271653 source:c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\tipo.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"inputs.h"
+	"tipo.h"
+
+1652277529 source:c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"notebook.h"
+	"trabajo.h"
+	"fecha.h"
+	"marca.h"
+	"tipo.h"
+	"servicio.h"
+	"inputs.h"
+	"hardcodeo.h"
+
+1652277502 source:c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\hardcodeo.c
+	"hardcodeo.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1652277434 c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\hardcodeo.h
+	"notebook.h"
+	"trabajo.h"
+
+1652277920 source:c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\trabajo.c
+	"trabajo.h"
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"notebook.h"
+	"servicio.h"
+	"fecha.h"
+	"marca.h"
+	"tipo.h"
+	"inputs.h"
+
+1652277434 c:\users\usuario\desktop\programacion 1\parcial.notebook.a1\trabajo.h
+	"notebook.h"
+	"servicio.h"
+	"fecha.h"
+	"marca.h"
+	"tipo.h"
+
