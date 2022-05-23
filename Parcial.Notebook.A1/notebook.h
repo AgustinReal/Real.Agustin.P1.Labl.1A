@@ -107,8 +107,22 @@ int modificarNotebook(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMa
  */
 int BajaNotebook(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
 
+//Ordenamiento por Marca y precio
+/** \brief Esta funcion: Ordena el listado de las notebooks por Marca. Si las marcas son iguales esta ordenara por el Precio del producto de manera Ascendente.
+ *
+ * \param listaNotebook eNotebook*:Es el array notebooks (Lista).
+ * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
+ * \param listaMarca eMarca*: Es el array marcas (Lista marcas).
+ * \param tamMarca int: Es size del array marca (Longitud de la lista marca).
+ * \param listaTipo eTipo*: Es el array tipos (Lista tipos).
+ * \param tamTipo int: Es size del array tipo (Longitud de la lista tipo).
+ * \return int: Esto retorna 2 posibles casos -1 o 0: 0 si pudo realiazar la funcion o -1 si no pudo realizarlo.
+ *
+ */
+int ordenamientoPorMarcaPrecio(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
+
 //Mostrar
-/** \brief Esta funcion: Muestra los datos una notebook con sus despectivos campos.
+/** \brief Esta funcion: Muestra los datos de un trabajo con sus despectivos campos.
  *
  * \param unNotebook eNotebook: Es una notebook que se imprimera todos sus campos.
  * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
@@ -120,8 +134,8 @@ int BajaNotebook(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, 
  *
  */
 int mostrarNotebook(eNotebook unNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
-/** \brief Esta funcion: Realiza un recorrido de la lista notebooks mediante un for, se verifica mediante un if si las notebooks estan activas
- *   (isEmpty==0) y imprime cada una de las notebooks activas del array notebook (La lista de notebooks).
+/** \brief Esta funcion: Realiza un recorrido de la lista trabajos mediante un for, se verifica mediante un if si los trabajos estan activos
+ *   (isEmpty==0) y imprime cada una de los trabajos activas del array trabajo (La lista de trabajos).
  *
  * \param listaNotebook eNotebook*:Es el array notebooks (Lista).
  * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
@@ -134,9 +148,112 @@ int mostrarNotebook(eNotebook unNotebook, int tamNotebook, eMarca* listaMarca, i
  */
 int mostrarNotebooks(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
 
+//Informes
+/** \brief Esta funcion: Es el menu principal de informes Notebook.
+ *
+ * \return int: Esto retorna la opcion del menu informes elegida.
+ *
+ */
+int menuInformesNotebook();
 
+/** \brief Esta funciom: El usuario pide un Tipo: ("Gamer", "Disenio", "UltraBook", "Normalita") y le mostramos todas las notebook de esa categoria del tipo
+ *  seleccionado por el usuario y si no se ha ingresado ese Tipo, se lo comunicamos al usuario mediante un printf.
+ *
+ * \param listaNotebook eNotebook*:Es el array notebooks (Lista).
+ * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
+ * \param listaMarca eMarca*: Es el array marcas (Lista marcas).
+ * \param tamMarca int: Es size del array marca (Longitud de la lista marca).
+ * \param listaTipo eTipo*: Es el array tipos (Lista tipos).
+ * \param tamTipo int: Es size del array tipo (Longitud de la lista tipo).
+ * \return int: Esto retorna 2 posibles casos -1 o 0: 0 si pudo realiazar la funcion o -1 si no pudo realizarlo.
+ *
+ */
+int informeMostrarTipoNotebookSeleccionadoPorElUsuario(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
 
+/** \brief Esta funciom: El usuario pide una Marca: ("Compaq", "Asus", "Acer", "HP") y le mostramos todas las notebook de esa categoria de la marca
+ *  seleccionado por el usuario y si no se ha ingresado esa Marca, se lo comunicamos al usuario mediante un printf.
+ *
+ * \param listaNotebook eNotebook*:Es el array notebooks (Lista).
+ * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
+ * \param listaMarca eMarca*: Es el array marcas (Lista marcas).
+ * \param tamMarca int: Es size del array marca (Longitud de la lista marca).
+ * \param listaTipo eTipo*: Es el array tipos (Lista tipos).
+ * \param tamTipo int: Es size del array tipo (Longitud de la lista tipo).
+ * \return int: Esto retorna 2 posibles casos -1 o 0: 0 si pudo realiazar la funcion o -1 si no pudo realizarlo.
+ *
+ */
+int informeMostrarMarcaNotebookSeleccionadoPorElUsuario(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
 
+/** \brief Esta funcion: Recorre la lista Notebooks y mediante una bandera se queda con el precio mas barato y luego volvemos a recorre la lista y nos quedamos
+ *  con todas las notebook que tenga el menor precio encontrado anteriormente y se muestra tal notebooks.
+ *
+ * \param listaNotebook eNotebook*:Es el array notebooks (Lista).
+ * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
+ * \param listaMarca eMarca*: Es el array marcas (Lista marcas).
+ * \param tamMarca int: Es size del array marca (Longitud de la lista marca).
+ * \param listaTipo eTipo*: Es el array tipos (Lista tipos).
+ * \param tamTipo int: Es size del array tipo (Longitud de la lista tipo).
+ * \return int: Esto retorna 2 posibles casos -1 o 0: 0 si pudo realiazar la funcion o -1 si no pudo realizarlo.
+ *
+ */
+int informeMostrarNotebooksMasBaratas(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
+
+/** \brief Esta funcion: Realiza un listado de notebooks activas (isEmpty==0), y por las Marcas: ("Compaq", "Asus", "Acer", "HP") y separandolas cada una
+ *   con su Marca despectivamente.
+ *
+ * \param listaNotebook eNotebook*:Es el array notebooks (Lista).
+ * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
+ * \param listaMarca eMarca*: Es el array marcas (Lista marcas).
+ * \param tamMarca int: Es size del array marca (Longitud de la lista marca).
+ * \param listaTipo eTipo*: Es el array tipos (Lista tipos).
+ * \param tamTipo int: Es size del array tipo (Longitud de la lista tipo).
+ * \return int: Esto retorna 2 posibles casos -1 o 0: 0 si pudo realiazar la funcion o -1 si no pudo realizarlo.
+ *
+ */
+int informeListadoNotebookSeparadasPorMarca(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
+
+/** \brief Esta funcion: Se encarga de contar la cantidad de notebooks que hay cuando el usuario ingresa un Tipo: ("Gamer", "Disenio", "UltraBook", "Normalita") y
+ *  una Marca: ("Compaq", "Asus", "Acer", "HP"), solo contando si las 2 cosas solicitadas al usurio coinciden. Si usurio elije un tipo y marca y no se encuentra activo
+ *  (En la lista de notebooks), se le informara mediante un printf que no se ha ingresado lo que el solicito.
+ *
+ * \param listaNotebook eNotebook*:Es el array notebooks (Lista).
+ * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
+ * \param listaMarca eMarca*: Es el array marcas (Lista marcas).
+ * \param tamMarca int: Es size del array marca (Longitud de la lista marca).
+ * \param listaTipo eTipo*: Es el array tipos (Lista tipos).
+ * \param tamTipo int: Es size del array tipo (Longitud de la lista tipo).
+ * \return int: Esto retorna 2 posibles casos -1 o 0: 0 si pudo realiazar la funcion o -1 si no pudo realizarlo.
+ *
+ */
+int informeCantidadNotebookPorTipoMarcaElegida(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
+
+/** \brief Esta funcion: Recorro la lista Marcas y ademas la lista notebooks y por cada marca cuento la cantidad de notebook ingresadas, despues vuelvo a recorrer la lista
+ *  Marcas: ("Compaq", "Asus", "Acer", "HP") y comparo el array de contadores de cada Marca y mediante una bandera me quedo con la cantidad mayor. Finalmente vuelvo a recorer la lista
+ *  de Marcas y me quedo con las marcas que tiene la misca cantidad que "la variable de bandera (cantidad mayor)" y lo muestro.
+ *
+ * \param listaNotebook eNotebook*:Es el array notebooks (Lista).
+ * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
+ * \param listaMarca eMarca*: Es el array marcas (Lista marcas).
+ * \param tamMarca int: Es size del array marca (Longitud de la lista marca).
+ * \param listaTipo eTipo*: Es el array tipos (Lista tipos).
+ * \param tamTipo int: Es size del array tipo (Longitud de la lista tipo).
+ * \return int: Esto retorna 2 posibles casos -1 o 0: 0 si pudo realiazar la funcion o -1 si no pudo realizarlo.
+ *
+ */
+int informeMarcaMasElegida(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
+
+/** \brief Esta funcion: Es parte del menu de informes, tiene un switch con todas las opciones de los informes notebooks (cada opcion con su funcion pedida).
+ *
+ * \param listaNotebook eNotebook*:Es el array notebooks (Lista).
+ * \param tamNotebook int: Es size del array notebook (Longitud de la lista).
+ * \param listaMarca eMarca*: Es el array marcas (Lista marcas).
+ * \param tamMarca int: Es size del array marca (Longitud de la lista marca).
+ * \param listaTipo eTipo*: Es el array tipos (Lista tipos).
+ * \param tamTipo int: Es size del array tipo (Longitud de la lista tipo).
+ * \return int: Esto retorna 2 posibles casos -1 o 0: 0 si pudo realiazar la funcion o -1 si no pudo realizarlo.
+ *
+ */
+int informesNotebooks(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo);
 
 
 
@@ -173,3 +290,5 @@ int mostrarNotebooks(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMar
 
 
 //Real Agustin 1°A, 11/5/2022
+
+//Real Agustin 1°A, 23/5/2022

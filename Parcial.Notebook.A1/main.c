@@ -116,7 +116,27 @@ int main()
                     printf("\nNo se han ingresados notebooks al sistema y ni trabajos...\n\n");
                 }
                 break;
-             case 10:
+            case 10:
+                if(hayUnNotebook==1)
+                {
+                    informesNotebooks(listaNotebook, TAMNOTEBOOK, listaMarcas, TAMMARCAS, listaTipos, TAMTIPOS);
+                }
+                else
+                {
+                    printf("\nNo se han ingresados notebooks al sistema...\n\n");
+                }
+                break;
+            case 11:
+                if(hayUnNotebook==1 && hayUnTrabajo==1)
+                {
+                    informesTrabajo(listaTrabajos, TAMTRABAJOS, listaNotebook, TAMNOTEBOOK, listaMarcas, TAMMARCAS, listaTipos, TAMTIPOS, listaServicio, TAMSERVICIO);
+                }
+                else
+                {
+                    printf("\nNo se han ingresados notebooks al sistema y ni trabajos...\n\n");
+                }
+                break;
+            case 12:
                 ingresoChar(&salir, "\nPrsione s para salir del menu (s/n): ");
                 break;
              default:
@@ -154,3 +174,5 @@ int main()
 
 
 //Real Agustin 1°A, 11/5/2022
+
+//Real Agustin 1°A, 23/5/2022

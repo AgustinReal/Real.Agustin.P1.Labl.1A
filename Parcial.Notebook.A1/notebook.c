@@ -27,7 +27,9 @@ int menu()
                 "|7-LISTAR SERVICIOS                |\n"
                 "|8-ALTA TRABAJO                    |\n"
                 "|9-LISTAR TRABAJOS                 |\n"
-                "|10-SALIR                          |\n"
+                "|10-INFORMES NOTEBOOKS             |\n"
+                "|11-INFORMES TRABAJOS              |\n"
+                "|12-SALIR                          |\n"
                 "|__________________________________|\n");
 
         printf("Usted eligio: ");
@@ -303,6 +305,45 @@ int BajaNotebook(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, 
 
     return todoOk;
 }
+int ordenamientoPorMarcaPrecio(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo)
+{
+    int todoOk=-1;
+    eNotebook auxSwap;
+    char descripcionA[20];
+    char descripcionB[20];
+
+    if(listaNotebook!=NULL && tamNotebook>0 && listaMarca!=NULL && tamMarca>0 && listaTipo!=NULL && tamTipo>0)
+    {
+
+        for(int i=0;i<tamNotebook;i++)
+        {
+            for(int j=i+1;j<tamNotebook;j++)
+            {
+
+                cargarDescripcionMarca(listaMarca, tamMarca, listaNotebook[i].idMarca, descripcionA);
+                cargarDescripcionMarca(listaMarca, tamMarca, listaNotebook[j].idMarca, descripcionB);
+
+                if(strcmp(descripcionA, descripcionB)>0)
+                {
+                    auxSwap=listaNotebook[i];
+                    listaNotebook[i]=listaNotebook[j];
+                    listaNotebook[j]=auxSwap;
+                }
+                else if(strcmp(descripcionA, descripcionB)==0 && listaNotebook[i].precio < listaNotebook[j].precio)
+                {
+                    auxSwap=listaNotebook[i];
+                    listaNotebook[i]=listaNotebook[j];
+                    listaNotebook[j]=auxSwap;
+                }
+            }
+        }
+
+        todoOk=0;
+    }
+
+    return todoOk;
+}
+
 int mostrarNotebook(eNotebook unNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo)
 {
     int todoOk=-1;
@@ -331,6 +372,7 @@ int mostrarNotebooks(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMar
 
     if(listaNotebook!=NULL && tamNotebook>0 && listaMarca!=NULL && tamMarca>0 && listaTipo!=NULL && tamTipo>0)
     {
+        ordenamientoPorMarcaPrecio(listaNotebook, tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
         printf(" ______________________________________________________________________________ \n");
         printf("|                                                                              |\n");
         printf("|                              ***Lista Notebooks***                           |\n");
@@ -352,7 +394,381 @@ int mostrarNotebooks(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMar
 
     return todoOk;
 }
+int menuInformesNotebook()
+{
+    int opcion;
 
+    printf(" ________________________________________________________________________________________________ \n"
+           "|                                                                                                |\n"
+           "|                                   MENU PRINCIPAL INFORMES                                      |\n"
+           "|                                    SERVICIO DE NOTEBOOKS                                       |\n"
+           "|________________________________________________________________________________________________|\n"
+           "|                                                                                                |\n"
+           "|1-INFORME MOSTRAR NOTEBOOKS DEL TIPO SELECIONADO POR EL USUARIO.                                |\n"
+           "|2-INFORME MOSTRAR NOTEBOOKS DE LA MARCA SELECIONADO.                                            |\n"
+           "|3-INFORME MOSTRAR LA O LAS NOTEBOOKS MAS BARATA.                                                |\n"
+           "|4-INFORME MOSTRAR UN LISTADO DE NOTEBOOKS SEPARADO POR MARCA.                                   |\n"
+           "|5-INFORME ELEGIR UN TIPO Y MARCA Y CONTAR CUANTAS NOTEBOOKS HAY DE ESE TIPO Y ESA MARCA.        |\n"
+           "|6-INFORME MOSTRAR LA O LAS MARCAS MAS ELEGIDA POR LOS CLIENTES.                                 |\n"
+           "|7-SALIR                                                                                         |\n"
+           "|________________________________________________________________________________________________|\n");
+
+    printf("Usted eligio: ");
+    scanf("%d", &opcion);
+
+    return opcion;
+}
+int informeMostrarTipoNotebookSeleccionadoPorElUsuario(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo)
+{
+    int todoOk=-1;
+    int idTipoSeleccionada;
+    char descripcionTipo[20];
+    int flagHayEseTipo=0;
+
+    if(listaNotebook!=NULL && tamNotebook>0 && listaMarca!=NULL && tamMarca>0 && listaTipo!=NULL && tamTipo>0)
+    {
+        system("cls");
+        printf("\n   ____________________________________________________________________________________ \n");
+        printf("  |                                                                                    |\n");
+        printf("  |                     ***Informe Tipo notebook selecionado***                        |\n");
+        printf("  |____________________________________________________________________________________|\n\n");
+
+        mostrarTipos(listaTipo, tamTipo);
+        ingresoEntero(&idTipoSeleccionada, "\nIngrese el tipo de notebook (5000-5003): ", "Error. Ingrese el tipo de notebook (5000-5003):", 5000, 5003);
+        cargarDescripcionTipo(listaTipo, tamTipo, idTipoSeleccionada, descripcionTipo);
+
+        printf(" ______________________________________________________________________________ \n");
+        printf("|                                                                              |\n");
+        printf("|                     ***Lista Notebooks con el tipo %-9s***              |\n", descripcionTipo);
+        printf("|______________________________________________________________________________|\n");
+        printf("|                                                                              |\n");
+        printf("|        **                 **            **           **            **        |\n");
+        printf("|   idNotebook            Modelo         Marca        Tipo          Precio     |\n");
+        printf("|______________________________________________________________________________|\n");
+
+        for(int i=0;i<tamNotebook;i++)
+        {
+            if(listaNotebook[i].isEmpty==0 && listaNotebook[i].idTipo==idTipoSeleccionada)
+            {
+                mostrarNotebook(listaNotebook[i], tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                flagHayEseTipo=1;
+            }
+        }
+
+        if(flagHayEseTipo!=1)
+        {
+            printf("No se ham ingresado notebooks de ese tipo %s\n", descripcionTipo);
+        }
+        printf("|___________________|________________|___________|_____________|_______________|\n");
+
+        todoOk=0;
+    }
+
+    return todoOk;
+}
+int informeMostrarMarcaNotebookSeleccionadoPorElUsuario(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo)
+{
+    int todoOk=-1;
+    int idMarcaSeleccionada;
+    char descripcionMarca[20];
+    int flagHayEsaMarca=0;
+
+    if(listaNotebook!=NULL && tamNotebook>0 && listaMarca!=NULL && tamMarca>0 && listaTipo!=NULL && tamTipo>0)
+    {
+        system("cls");
+        printf("\n   ____________________________________________________________________________________ \n");
+        printf("  |                                                                                    |\n");
+        printf("  |                    ***Informe Marca notebook selecionado***                        |\n");
+        printf("  |____________________________________________________________________________________|\n\n");
+
+        mostrarMarcas(listaMarca, tamMarca);
+        ingresoEntero(&idMarcaSeleccionada, "\nIngrese la marca de la notebook (1000-1003): ", "Error.Ingrese la marca de la notebook (1000-1003): ", 1000, 1003);
+        cargarDescripcionMarca(listaMarca, tamMarca, idMarcaSeleccionada, descripcionMarca);
+
+        printf(" ______________________________________________________________________________ \n");
+        printf("|                                                                              |\n");
+        printf("|                     ***Lista Notebooks con la marca %-6s***                |\n", descripcionMarca);
+        printf("|______________________________________________________________________________|\n");
+        printf("|                                                                              |\n");
+        printf("|        **                 **            **           **            **        |\n");
+        printf("|   idNotebook            Modelo         Marca        Tipo          Precio     |\n");
+        printf("|______________________________________________________________________________|\n");
+
+        for(int i=0;i<tamNotebook;i++)
+        {
+            if(listaNotebook[i].isEmpty==0 && listaNotebook[i].idMarca==idMarcaSeleccionada)
+            {
+                mostrarNotebook(listaNotebook[i], tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                flagHayEsaMarca=1;
+            }
+        }
+
+        if(flagHayEsaMarca!=1)
+        {
+            printf("No se ham ingresado notebooks de la marca %s\n", descripcionMarca);
+        }
+        printf("|___________________|________________|___________|_____________|_______________|\n");
+
+        todoOk=0;
+    }
+
+    return todoOk;
+}
+int informeMostrarNotebooksMasBaratas(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo)
+{
+   int todoOk=-1;
+   float menorPrecio;
+   int flagMenorPrecio=0;
+
+   if(listaNotebook!=NULL && tamNotebook>0 && listaMarca!=NULL && tamMarca>0 && listaTipo!=NULL && tamTipo>0)
+   {
+        system("cls");
+        printf("\n   ____________________________________________________________________________________ \n");
+        printf("  |                                                                                    |\n");
+        printf("  |                        ***Informe notebooks mas baratas***                         |\n");
+        printf("  |____________________________________________________________________________________|\n\n");
+
+        for(int i=0;i<tamNotebook;i++)
+        {
+           if(listaNotebook[i].isEmpty==0)
+           {
+                if(flagMenorPrecio==0 || listaNotebook[i].precio<menorPrecio)
+                {
+                    menorPrecio=listaNotebook[i].precio;
+                    flagMenorPrecio=1;
+                }
+           }
+        }
+
+        printf("El menor precio es $%.2f y la notebook es:\n\n", menorPrecio);
+
+        printf(" ______________________________________________________________________________ \n");
+        printf("|                                                                              |\n");
+        printf("|                       ***Lista Notebook mas baratas***                       |\n");
+        printf("|______________________________________________________________________________|\n");
+        printf("|                                                                              |\n");
+        printf("|        **                 **            **           **            **        |\n");
+        printf("|   idNotebook            Modelo         Marca        Tipo          Precio     |\n");
+        printf("|______________________________________________________________________________|\n");
+
+        for(int i=0;i<tamNotebook;i++)
+        {
+            if(listaNotebook[i].precio==menorPrecio && listaNotebook[i].isEmpty==0)
+            {
+                mostrarNotebook(listaNotebook[i], tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+            }
+        }
+        printf("|___________________|________________|___________|_____________|_______________|\n");
+
+        todoOk=0;
+   }
+   return todoOk;
+}
+int informeListadoNotebookSeparadasPorMarca(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo)
+{
+   int todoOk=-1;
+   int flagHayMarca;
+
+   if(listaNotebook!=NULL && tamNotebook>0 && listaMarca!=NULL && tamMarca>0 && listaTipo!=NULL && tamTipo>0)
+   {
+       system("cls");
+       printf("\n   ____________________________________________________________________________________ \n");
+       printf("  |                                                                                    |\n");
+       printf("  |                 ***Informe Listado notebooks separadas marcas***                   |\n");
+       printf("  |____________________________________________________________________________________|\n\n");
+
+       for(int i=0;i<tamMarca;i++)
+       {
+            printf("La marca notebook: %s\n\n", listaMarca[i].descripcion);
+
+            printf(" ______________________________________________________________________________ \n");
+            printf("|                                                                              |\n");
+            printf("|                 ***Lista Notebooks con la marca %-6s***                    |\n", listaMarca[i].descripcion);
+            printf("|______________________________________________________________________________|\n");
+            printf("|                                                                              |\n");
+            printf("|        **                 **            **           **            **        |\n");
+            printf("|   idNotebook            Modelo         Marca        Tipo          Precio     |\n");
+            printf("|______________________________________________________________________________|\n");
+            flagHayMarca=1;
+           for(int n=0;n<tamNotebook;n++)
+           {
+              if(listaNotebook[n].isEmpty==0 && listaNotebook[n].idMarca==listaMarca[i].id)
+              {
+                  mostrarNotebook(listaNotebook[n], tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                  flagHayMarca=0;
+              }
+           }
+
+           if(flagHayMarca!=0)
+           {
+                printf("\nNo se han ingresado notebooks con la Marca: %s \n\n", listaMarca[i].descripcion);
+           }
+
+           printf("|___________________|________________|___________|_____________|_______________|\n\n");
+
+
+       }
+       todoOk=0;
+   }
+
+   return todoOk;
+}
+int informeCantidadNotebookPorTipoMarcaElegida(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo)
+{
+   int todoOk=-1;
+   int idTipoSeleccionada;
+   int idMarcaSeleccionada;
+   char descripcionTipo[20];
+   char descripcionMarca[20];
+   int cantidadNotebooks=0;
+   int flagHayNotebook=0;
+
+   if(listaNotebook!=NULL && tamNotebook>0 && listaMarca!=NULL && tamMarca>0 && listaTipo!=NULL && tamTipo>0)
+   {
+        system("cls");
+        printf("\n   ____________________________________________________________________________________ \n");
+        printf("  |                                                                                    |\n");
+        printf("  |         ***Informe cantidad de notebooks de una marca y tipo selecionado***        |\n");
+        printf("  |____________________________________________________________________________________|\n\n");
+
+        mostrarNotebooks(listaNotebook, tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+        printf("\n\n");
+
+        mostrarTipos(listaTipo, tamTipo);
+        ingresoEntero(&idTipoSeleccionada, "Ingrese el tipo de notebook (5000-5003): ", "Error. Ingrese el tipo de notebook (5000-5003):", 5000, 5003);
+        cargarDescripcionTipo(listaTipo, tamTipo, idTipoSeleccionada, descripcionTipo);
+
+        mostrarMarcas(listaMarca, tamMarca);
+        ingresoEntero(&idMarcaSeleccionada, "Ingrese la marca de la notebook (1000-1003): ", "Error.Ingrese la marca de la notebook (1000-1003): ", 1000, 1003);
+        cargarDescripcionMarca(listaMarca, tamMarca, idMarcaSeleccionada, descripcionMarca);
+
+
+        printf(" ______________________________________________________________________________ \n");
+        printf("|                                                                              |\n");
+        printf("|           ***Lista Notebooks con la tipo %s y con la marca %-6s***       |\n", descripcionTipo, descripcionMarca);
+        printf("|______________________________________________________________________________|\n");
+        printf("|                                                                              |\n");
+        printf("|        **                 **            **           **            **        |\n");
+        printf("|   idNotebook            Modelo         Marca        Tipo          Precio     |\n");
+        printf("|______________________________________________________________________________|\n");
+        for(int i=0;i<tamNotebook;i++)
+        {
+            if(listaNotebook[i].idMarca==idMarcaSeleccionada && listaNotebook[i].idTipo==idTipoSeleccionada && listaNotebook[i].isEmpty==0)
+            {
+                cantidadNotebooks++;
+                mostrarNotebook(listaNotebook[i], tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                flagHayNotebook=1;
+            }
+        }
+
+        printf("|___________________|________________|___________|_____________|_______________|\n\n");
+
+        if(flagHayNotebook==1)
+        {
+            printf("\nLa cantidad de notebooks del tipo %s y de la marca %s son: %d\n\n", descripcionTipo, descripcionMarca, cantidadNotebooks);
+        }
+        else
+        {
+            printf("No se ham ingresado notebooks del tipo %s y de la marca %s selecionado:..\n", descripcionTipo, descripcionMarca);
+        }
+
+        todoOk=0;
+   }
+
+   return todoOk;
+}
+int informeMarcaMasElegida(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo)
+{
+    int todoOk=-1;
+    int arrayContadoresMarca[4]={0, 0, 0, 0};
+    int marcaMasElegida;
+    int flagMarcaMasElegida=0;
+
+    if(listaNotebook!=NULL && tamNotebook>0 && listaMarca!=NULL && tamMarca>0 && listaTipo!=NULL && tamTipo>0)
+   {
+        system("cls");
+        printf("\n   ____________________________________________________________________________________ \n");
+        printf("  |                                                                                    |\n");
+        printf("  |                     ***Informe marca de notebook mas elegida***                    |\n");
+        printf("  |____________________________________________________________________________________|\n\n");
+
+        mostrarNotebooks(listaNotebook, tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+
+        for(int m=0;m<tamMarca;m++)
+        {
+            for(int n=0;n<tamNotebook;n++)
+            {
+                if(listaNotebook[n].isEmpty==0 && listaMarca[m].id==listaNotebook[n].idMarca)
+                {
+                    arrayContadoresMarca[m]++;
+                }
+            }
+        }
+
+        for(int m=0;m<tamMarca;m++)
+        {
+            if(flagMarcaMasElegida==0 || arrayContadoresMarca[m]>marcaMasElegida)
+            {
+                marcaMasElegida=arrayContadoresMarca[m];
+                flagMarcaMasElegida=1;
+            }
+        }
+
+        for(int i=0; i<tamMarca; i++)
+        {
+            if(arrayContadoresMarca[i]==marcaMasElegida)
+            {
+                printf("\n\nLa marca de notebook mas elegida es: %s\n", listaMarca[i].descripcion);
+            }
+        }
+        todoOk=0;
+    }
+
+    return todoOk;
+}
+int informesNotebooks(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMarca, int tamMarca, eTipo* listaTipo, int tamTipo)
+{
+    int todoOk=-1;
+    char afirmacion;
+
+    if(listaNotebook!=NULL && tamNotebook>0 && listaMarca!=NULL && tamMarca>0 && listaTipo!=NULL && tamTipo>0)
+    {
+        do
+        {
+            switch(menuInformesNotebook())
+            {
+                case 1:
+                    informeMostrarTipoNotebookSeleccionadoPorElUsuario(listaNotebook, tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                    break;
+                case 2:
+                    informeMostrarMarcaNotebookSeleccionadoPorElUsuario(listaNotebook, tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                    break;
+                case 3:
+                    informeMostrarNotebooksMasBaratas(listaNotebook, tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                    break;
+                case 4:
+                    informeListadoNotebookSeparadasPorMarca(listaNotebook, tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                    break;
+                case 5:
+                    informeCantidadNotebookPorTipoMarcaElegida(listaNotebook, tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                    break;
+                case 6:
+                    informeMarcaMasElegida(listaNotebook, tamNotebook, listaMarca, tamMarca, listaTipo, tamTipo);
+                    break;
+                case 7:
+                    ingresoChar(&afirmacion, "\nPresione S para salir del menu de informes notebooks (s/n): ");
+                    break;
+                default:
+                    printf("\nError. Ingrese una opcion (1-7): \n\n");
+                    break;
+            }
+        }while(afirmacion!='s');
+
+        todoOk=0;
+    }
+
+    return todoOk;
+}
 
 
 
@@ -389,3 +805,5 @@ int mostrarNotebooks(eNotebook* listaNotebook, int tamNotebook, eMarca* listaMar
 
 
 //Real Agustin 1°A, 11/5/2022
+
+//Real Agustin 1°A, 23/5/2022
